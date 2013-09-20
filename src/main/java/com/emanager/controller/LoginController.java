@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/login",method = RequestMethod.GET)
 public class LoginController {
 
+
     @RequestMapping
     public
     @ResponseBody String printHello(){
+
         return "Hello";
     }
 }

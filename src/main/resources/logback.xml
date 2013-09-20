@@ -9,7 +9,7 @@
             <pattern>%.-1level|%-40.40logger{0}|%msg%n</pattern>
         </encoder>
     </appender>
-    <logger name="com.nvr.data" level="error" />
+    <logger name="com.emanager" level="error" />
     <logger name="org.springframework" level="info" />
     <logger name="org.springframework.beans" level="error" />
     <logger name="org.hibernate" level="error"/>
