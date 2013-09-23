@@ -1,21 +1,23 @@
 <?xmlversion = "1.0" encoding="UTF-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:context="http://www.springframework.org/schema/context"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context.xsd">
-    <import resource="applicationContext-Repository.xml"/>
+    <import resource="applicationContext-repository.xml"/>
+    <import resource="applicationContext-controller.xml"/>
+    <import resource="applicationContext-service.xml"/>
 
     <!--using property place holder-->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location">
-            <value>classpath:META-INF\database.properties</value>
+            <value>classpath:spring\test.properties</value>
         </property>
     </bean>
     <!--component scan-->
-    <context:component-scan base-package="com.emanager">
+    <context:component-scan base-package="com.nvr.data">
         <context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
         <context:exclude-filter expression="org.springframework.stereotype.Repository" type="annotation"/>
         <context:exclude-filter expression="org.springframework.stereotype.Service" type="annotation"/>
@@ -24,4 +26,9 @@ http://www.springframework.org/schema/context/spring-context.xsd">
     <bean id="slf4JBridgeHandler" class="org.slf4j.bridge.SLF4JBridgeHandler"/>
     <bean class="org.slf4j.bridge.SLF4JBridgeHandler"/>
 
+    <bean id="threadPoolExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor" >
+        <property name="corePoolSize" value="1"/>
+        <property name="maxPoolSize" value="15"/>
+        <property name="keepAliveSeconds" value="30"/>
+    </bean>
 </beans>

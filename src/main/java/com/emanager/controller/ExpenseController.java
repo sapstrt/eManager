@@ -1,6 +1,6 @@
 package com.emanager.controller;
 
-import com.emanager.Service.ExpenseService;
+import com.emanager.service.ExpenseService;
 import com.emanager.domain.Expense;
 
 import org.springframework.stereotype.Controller;
