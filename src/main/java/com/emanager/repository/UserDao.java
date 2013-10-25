@@ -1,10 +1,13 @@
 package com.emanager.repository;
 
+import com.emanager.domain.Expense;
 import com.emanager.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,4 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional(propagation = Propagation.MANDATORY)
 public interface UserDao extends JpaRepository<User,Integer>{
+    public List<User> findByUserName(String userName);
+    public List<User> findByEmailId(String userName);
+    public List<User> findByPhoneNumber(String userName);
 }

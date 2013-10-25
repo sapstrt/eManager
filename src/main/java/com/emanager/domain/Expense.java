@@ -96,19 +96,28 @@ public class Expense {
         Expense expense = (Expense) o;
 
         if (!amount.equals(expense.amount)) return false;
-        if (!createdBy.equals(expense.createdBy)) return false;
-        if (!date.equals(expense.date)) return false;
-        if (!expenseId.equals(expense.expenseId)) return false;
+        if (!expenseName.equals(expense.expenseName)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = expenseId.hashCode();
-        result = 31 * result + date.hashCode();
+        int result = expenseName.hashCode();
         result = 31 * result + amount.hashCode();
-        result = 31 * result + createdBy.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Expense{" +
+                "expenseId=" + expenseId +
+                ", expenseName='" + expenseName + '\'' +
+                ", date=" + date +
+                ", amount=" + amount +
+                ", location='" + location + '\'' +
+                ", status='" + status + '\'' +
+                ", createdBy=" + createdBy +
+                '}';
     }
 }

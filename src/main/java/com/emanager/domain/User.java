@@ -2,31 +2,56 @@ package com.emanager.domain;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
  * Created by pteltu on 9/20/13.
  */
 @Entity
+@Table(name = "user", uniqueConstraints = {@UniqueConstraint(columnNames = {"email", "userId"})})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer userId=0;
+    private Integer userId = 0;
+
+    @Column(name = "name")
     private String userName;
+
+    @Column(name = "email")
     private String emailId;
+
     private String phoneNumber;
+
+    private USER_STATUS status;
+
     @OneToMany
     private Set<Expense> expenses;
 
+    public enum USER_STATUS {
+        ACTIVE,NEW,INACTIVE;
+    }
+
     public User() {
+    }
+
+    public User(String emailId) {
+        this.emailId = emailId;
     }
 
     public User(String phoneNumber, String emailId, String userName) {
         this.phoneNumber = phoneNumber;
         this.emailId = emailId;
         this.userName = userName;
-        expenses=new HashSet<Expense>();
+        expenses = new HashSet<Expense>();
+        status=USER_STATUS.NEW;
+    }
+
+    public USER_STATUS getStatus() {
+        return status;
+    }
+
+    public void setStatus(USER_STATUS status) {
+        this.status = status;
     }
 
     public Integer getUserId() {
@@ -69,7 +94,7 @@ public class User {
         this.expenses = expenses;
     }
 
-    public void addExpense(Expense expense){
+    public void addExpense(Expense expense) {
         expenses.add(expense);
     }
 
@@ -81,19 +106,17 @@ public class User {
         User user = (User) o;
 
         if (!emailId.equals(user.emailId)) return false;
-        if (!phoneNumber.equals(user.phoneNumber)) return false;
-        if (!userId.equals(user.userId)) return false;
-        if (!userName.equals(user.userName)) return false;
+        if (phoneNumber != null ? !phoneNumber.equals(user.phoneNumber) : user.phoneNumber != null) return false;
+        if (userName != null ? !userName.equals(user.userName) : user.userName != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = userId.hashCode();
-        result = 31 * result + userName.hashCode();
+        int result = userName != null ? userName.hashCode() : 0;
         result = 31 * result + emailId.hashCode();
-        result = 31 * result + phoneNumber.hashCode();
+        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         return result;
     }
 }
