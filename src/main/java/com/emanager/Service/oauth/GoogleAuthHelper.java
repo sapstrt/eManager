@@ -1,6 +1,7 @@
 package com.emanager.service.oauth;
 
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.TokenResponseException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
@@ -95,17 +96,21 @@ public final class GoogleAuthHelper {
 	 * @param authCode authentication code provided by google
 	 */
 	public String getUserInfoJson(final String authCode) throws IOException {
+        try {
+            final GoogleTokenResponse response = flow.newTokenRequest(authCode).setRedirectUri(CALLBACK_URI).execute();
+            final Credential credential = flow.createAndStoreCredential(response, null);
+            final HttpRequestFactory requestFactory = HTTP_TRANSPORT.createRequestFactory(credential);
+            // Make an authenticated request
+            final GenericUrl url = new GenericUrl(USER_INFO_URL);
+            final HttpRequest request = requestFactory.buildGetRequest(url);
+            request.getHeaders().setContentType("application/json");
+            final String jsonIdentity = request.execute().parseAsString();
 
-		final GoogleTokenResponse response = flow.newTokenRequest(authCode).setRedirectUri(CALLBACK_URI).execute();
-		final Credential credential = flow.createAndStoreCredential(response, null);
-		final HttpRequestFactory requestFactory = HTTP_TRANSPORT.createRequestFactory(credential);
-		// Make an authenticated request
-		final GenericUrl url = new GenericUrl(USER_INFO_URL);
-		final HttpRequest request = requestFactory.buildGetRequest(url);
-		request.getHeaders().setContentType("application/json");
-		final String jsonIdentity = request.execute().parseAsString();
+            return jsonIdentity;
+        }catch (TokenResponseException e){
+            throw new IOException("Bad request");
+        }
 
-		return jsonIdentity;
 
 	}
 

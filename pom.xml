@@ -117,7 +117,6 @@
             <groupId>com.google.http-client</groupId>
             <artifactId>google-http-client-gson</artifactId>
         </dependency>
-
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -240,7 +239,7 @@
         </dependencies>
     </dependencyManagement>
     <build>
-        <finalName>${artifactId}-${version}</finalName>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <directory>target</directory>
         <outputDirectory>target/classes</outputDirectory>
         <sourceDirectory>src/main/java</sourceDirectory>
@@ -256,14 +255,13 @@
             </testResource>
         </testResources>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
 
@@ -305,6 +303,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <!--tomcat plugin with dependencies for JMX, SLF4J, Logback and Logback Access-->
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
@@ -351,7 +350,6 @@
                         <version>${logback.version}</version>
                         <scope>runtime</scope>
                     </dependency>
-
                 </dependencies>
             </plugin>
         </plugins>

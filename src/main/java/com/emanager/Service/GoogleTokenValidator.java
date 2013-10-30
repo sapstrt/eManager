@@ -25,27 +25,29 @@ import java.util.List;
 public class GoogleTokenValidator {
     final static Logger LOGGER = LoggerFactory.getLogger(GoogleTokenValidator.class);
     Checker checker;
+
     public GoogleTokenValidator(String audience, String clientIdNotSeparated) {
-        String[] clientIds=clientIdNotSeparated.split(",");
-        checker=new Checker(clientIds,audience);
+        String[] clientIds = clientIdNotSeparated.split(",");
+        checker = new Checker(clientIds, audience);
     }
+
     public String validateIdTokenAndGetEmailId(String idToken) {
-        GoogleIdToken.Payload payload=null;
-        if ((payload=checker.check(idToken))==null)
+        GoogleIdToken.Payload payload = null;
+        if ((payload = checker.check(idToken)) == null)
             return null;
         LOGGER.debug("This is the value of the payload :"
-                +'\n'+"USer Email " +payload.getEmail()
-                +'\n'+"USer AccessTokenHash " +payload.getAccessTokenHash()
-                +'\n'+"USer UserId " +payload.getUserId()
-                +'\n'+"USer HostedDomain " +payload.getHostedDomain()
-                +'\n'+"USer Issuee " +payload.getIssuee());
+                + '\n' + "USer Email " + payload.getEmail()
+                + '\n' + "USer AccessTokenHash " + payload.getAccessTokenHash()
+                + '\n' + "USer UserId " + payload.getUserId()
+                + '\n' + "USer HostedDomain " + payload.getHostedDomain()
+                + '\n' + "USer Issuee " + payload.getIssuee());
         return payload.getEmail();
 
     }
 
 
-
 }
+
 class Checker {
 
     private final List mClientIDs;
